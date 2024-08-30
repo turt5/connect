@@ -1,3 +1,4 @@
+import 'package:connect/features/forgotpass/view/pages/_forgotpass.dart';
 import 'package:connect/features/register/view/pages/_signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -78,7 +79,9 @@ class LoginPage extends StatelessWidget {
                       height: 5,
                     ),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotPassword()));
+                        },
                         child: const Text(
                           'Forgotten your password?',
                           style: TextStyle(fontSize: 13),
