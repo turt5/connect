@@ -1,4 +1,5 @@
 import 'package:connect/features/forgotpass/view/pages/_forgotpass.dart';
+import 'package:connect/features/home/view/pages/_homepage.dart';
 import 'package:connect/features/register/view/pages/_signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -73,7 +74,9 @@ class LoginPage extends StatelessWidget {
                         label: "Log in",
                         color: theme.primary,
                         labelColor: theme.onPrimary,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+                        },
                         elevation: 2),
                     const SizedBox(
                       height: 5,
