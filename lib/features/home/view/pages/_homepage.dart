@@ -1,4 +1,6 @@
+import 'package:connect/features/home/model/_nav.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
@@ -21,6 +23,7 @@ class HomePage extends StatelessWidget {
                     pinned: false,
                     elevation: 0,
                     surfaceTintColor: theme.tertiary,
+
                     snap: true,
                     centerTitle: false,
                     title: Row(
@@ -92,22 +95,82 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class CustomBottomNav extends StatelessWidget {
+class CustomBottomNav extends ConsumerWidget {
   const CustomBottomNav({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context).colorScheme;
+    final read = ref.watch(navigationProvider);
+    final write = ref.read(navigationProvider);
     return Container(
-      height: 60,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomBottomNavItem(
-              onTap: () {},
-              size: Size(30, 30),
-              assetUrl: "assets/icons/icon8-home-48.png",
-              scale: 1)
-        ],
+      decoration: BoxDecoration(
+          border:
+              Border(top: BorderSide(color: theme.primary.withOpacity(.1)))),
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      height: 70,
+      child: Center(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CustomBottomNavItem(
+                active: read.getIndex == 0,
+                activeColor: theme.primary,
+                inactiveColor: theme.onTertiary.withOpacity(.4),
+                activeAssetUrl: "assets/icons/icons8-home-48 (1).png",
+                onTap: () {
+                  write.setIndex=0;
+                },
+                size: Size(30, 30),
+                assetUrl: "assets/icons/icons8-home-48.png",
+                scale: 2),
+            CustomBottomNavItem(
+                active: read.getIndex == 1,
+                activeColor: theme.primary,
+                inactiveColor: theme.onTertiary.withOpacity(.4),
+                activeAssetUrl: "assets/icons/icons8-add-user-male-48.png",
+                onTap: () {
+                  write.setIndex=1;
+                },
+                size: Size(30, 30),
+                assetUrl: "assets/icons/icons8-add-user-48.png",
+                scale: 2),
+            CustomBottomNavItem(
+                active: read.getIndex == 2,
+                activeColor: theme.primary,
+                inactiveColor: theme.onTertiary.withOpacity(.4),
+                activeAssetUrl: "assets/icons/icons8-add-48.png",
+                onTap: () {
+                  write.setIndex=2;
+                },
+                size: Size(30, 30),
+                assetUrl: "assets/icons/icons8-add-50.png",
+                scale: 2),
+            CustomBottomNavItem(
+                active: read.getIndex== 3,
+                activeColor: theme.primary,
+                inactiveColor: theme.onTertiary.withOpacity(.4),
+                activeAssetUrl: "assets/icons/icons8-search-48 (1).png",
+                onTap: () {
+                  write.setIndex=3;
+                },
+                size: Size(30, 30),
+                assetUrl: "assets/icons/icons8-search-48.png",
+                scale: 2),
+            CustomBottomNavItem(
+                active: read.getIndex == 4,
+                activeColor: theme.primary,
+                inactiveColor: theme.onTertiary.withOpacity(.4),
+                activeAssetUrl: "assets/icons/icons8-male-user-48 (1).png",
+                onTap: () {
+                  write.setIndex=4;
+                },
+                size: Size(30, 30),
+                assetUrl: "assets/icons/icons8-male-user-48.png",
+                scale: 2)
+          ],
+        ),
       ),
     );
   }
@@ -119,27 +182,36 @@ class CustomBottomNavItem extends StatelessWidget {
       required this.onTap,
       required this.size,
       required this.assetUrl,
-      required this.scale});
+      required this.scale,
+      required this.activeAssetUrl,
+      required this.inactiveColor,
+      required this.activeColor,
+      required this.active});
 
   final VoidCallback onTap;
   final Size size;
   final String assetUrl;
+  final String activeAssetUrl;
   final double scale;
+  final Color inactiveColor;
+  final Color activeColor;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
-      child: Column(
-        children: [
-          Image.asset(
-            assetUrl,
-            width: size.width,
-            height: size.height,
-            fit: BoxFit.contain,
-            scale: scale,
-          ),
-        ],
+      onTap: onTap,
+      child: SizedBox(
+        height: 65,
+        width: 50,
+        child: Image.asset(
+          active ? activeAssetUrl : assetUrl,
+          width: size.width,
+          height: size.height,
+          // fit: BoxFit.contain,
+          color: active ? activeColor : inactiveColor,
+          scale: scale,
+        ),
       ),
     );
   }
